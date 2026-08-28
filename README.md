@@ -17,3 +17,12 @@ No, no hubo ningún error ni advertenia de ningún tipo al ejecutar el archivo, 
 Primero esto pasa porque Node.js ejecuta archivos TypeScript eliminando todos los tipos durante ese proceso en donde se esta cargando el archivo para ejecutarlo, también Node.js lo que hace es ignora o quitar las anotaciones e interfaces de TypeScript para transformarlo en JavaScript.
 En cuanto al comando que revisa es este 'npx tsc --noEmit' ya que ejecuta el compilador de TypeScript pero como le estamos indicando el '--noEmit' no generará archivos de salida.
 Y el comando que ejecuta es el 'node multas.ts' que simplemente corre el archivo.
+
+## Paso 3: Declarar variables
+
+**3.- De las dos líneas que usan const. ¿por qué solo una falla?**
+Porque const no permite reasignar la variable completa pero sí permite modificar las propiedades que tiene por dentro, como el título oh los logros en mi caso.
+
+**4.- Al asignarles un texto a la variable con let, nadie escribió que fuera un número. ¿De dónde salió ese tipo?**
+Sale de la inferencia de tipos que tiene TypeScript, como le di un número al inicio, TypeScript asumió automáticamente que la variable siempre debe ser un número.
+
