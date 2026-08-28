@@ -1,16 +1,37 @@
-// declarar una constante e intentar reasignarla
-const valor = 100;
-valor = 250;
+// Declarar un tipo que define los estados del préstamo
+type EstadoPrestamo = 'activo' | 'vencido' | 'devuelto';
 
-// declarar con let, reasignarla y asignarle un texto
-let total = 20;
-total = 20;
-total = "veinte";
+// Declarar interfaz que define la estructura del préstamo
+interface Prestamo{
+    folio: string;
+    multa: number;
+    ejemplar: number;
+    estado: EstadoPrestamo;
+    socio?: string;
+}
 
-// declarar un objeto con const, cambiar una propiedad y reasignar el objeto
-const videojuego = { 
-    titulo: "Geometry Dash",
-    logros: 547,
+// Función para sumar el cargo fijo a la multa del préstamo
+function calcularMulta(prestamo: Prestamo){
+    const cargoFijo = 50;
+    return prestamo.multa + cargoFijo;
+}
+
+// Función para generar el texto del recibo según si existe o no el socio
+function reciboDe(prestamo: Prestamo): string {
+    if (prestamo.socio === undefined){
+        return `Recibo de socio no registrado | Total: $${calcularMulta(prestamo)}`;
+    }
+    return `Recibo de ${prestamo.socio} | Total: $${calcularMulta(prestamo)}`;
+}
+
+// Objeto de prueba tipado con la interfaz Prestamo
+const prestamo: Prestamo = { 
+    folio: "F001",
+    multa: 350, 
+    ejemplar: 14,
+    estado: 'vencido',
+    socio: "Juan Pérez"
 };
-videojuego.logros = 320;
-videojuego = { titulo: "Nine Sols", logros: 35 };
+
+// Ejecución y mostrar el recibo en consola
+console.log(reciboDe(prestamo));
