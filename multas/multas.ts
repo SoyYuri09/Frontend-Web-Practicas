@@ -35,3 +35,17 @@ const prestamo: Prestamo = {
 
 // Ejecución y mostrar el recibo en consola
 console.log(reciboDe(prestamo));
+
+// Línea de error 1, valor no válido en un tipo Prestamo
+const prestamoInvalido: Prestamo = {
+    folio: "F002", 
+    multa: 100, 
+    ejemplar: 5, 
+    estado: "CANCELADO" 
+};
+
+// Línea de error 2, agregando una propiedad inexistente
+console.log(prestamo.editorial);
+
+// Línea de error 3, falta de argumentos para ejecutar una función
+calcularMulta();

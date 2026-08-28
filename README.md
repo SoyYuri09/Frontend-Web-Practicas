@@ -18,7 +18,7 @@ Primero esto pasa porque Node.js ejecuta archivos TypeScript eliminando todos lo
 En cuanto al comando que revisa es este 'npx tsc --noEmit' ya que ejecuta el compilador de TypeScript pero como le estamos indicando el '--noEmit' no generará archivos de salida.
 Y el comando que ejecuta es el 'node multas.ts' que simplemente corre el archivo.
 
-## Paso 3: Declarar variables
+## Paso 4: Declarar variables
 
 **3.- De las dos líneas que usan const. ¿por qué solo una falla?**
 Porque const no permite reasignar la variable completa pero sí permite modificar las propiedades que tiene por dentro, como el título oh los logros en mi caso.
@@ -26,3 +26,25 @@ Porque const no permite reasignar la variable completa pero sí permite modifica
 **4.- Al asignarles un texto a la variable con let, nadie escribió que fuera un número. ¿De dónde salió ese tipo?**
 Sale de la inferencia de tipos que tiene TypeScript, como le di un número al inicio, TypeScript asumió automáticamente que la variable siempre debe ser un número.
 
+## Paso 6: Provocar tres errores distintos
+
+**Error 1: Valor no válido en el tipo de estado**
+**Mensaje exacto:** error TS2322: Type '"CANCELADO"' is not assignable to type 'EstadoPrestamo'.
+**Clave TS:** TS2322
+**¿Qué esperaba?** Esperaba que devolviera uno de los 3 valores válidos (activo, vencido, devuelto).
+**¿Qué se recibió?** El texto "CANCELADO"
+**Línea:** 44
+
+**Error 2: Propiedad que no existe**
+**Mensaje exacto:** error TS2339: Property 'editorial' does not exist on type 'Prestamo'.
+**Clave TS:** TS2339
+**¿Qué esperaba?** Una propiedad que esté definida en la interfaz Prestamo.
+**¿Qué se recibió?** La propiedad editorial, que realmente no existe en la interfaz.
+**Línea:** 48
+
+**Error 3: Llamar a una función sin pasarle argumentos**
+**Mensaje exacto:** error TS2554: Expected 1 arguments, but got 0.
+**Clave TS:** TS2554
+**¿Qué esperaba?** Un argumento con los datos del préstamo.
+**¿Qué se recibió?** No recibió ningún argumento.
+**Línea:** 51
