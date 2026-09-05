@@ -1,4 +1,4 @@
-# Práctica 2:
+# Práctica 2
 
 ## Paso 2: El dominio, antes que el programa
 
