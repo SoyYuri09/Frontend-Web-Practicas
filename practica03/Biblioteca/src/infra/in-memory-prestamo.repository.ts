@@ -1,27 +1,29 @@
-import type { PrestamoRepository } from '../dominio/prestamo.repository.js';
-import type { Prestamo } from '../dominio/prestamo.entity.js';
+import { Prestamo } from '../dominio/prestamo.entity.js';
+import { PrestamoRepository } from '../dominio/prestamo.repository.js';
 
 export class InMemoryPrestamoRepository implements PrestamoRepository {
-  private readonly datos = new Map<string, Prestamo>();
+  private prestamos = new Map<string, Prestamo>();
 
   async findById(folio: string): Promise<Prestamo | null> {
-    return this.datos.get(folio) ?? null;
+    const prestamo = this.prestamos.get(folio);
+    return prestamo ?? null;
   }
 
   async findAll(): Promise<Prestamo[]> {
-    return [...this.datos.values()];
+    return Array.from(this.prestamos.values());
   }
 
-  async save(prestamo: Prestamo): Promise<Prestamo> {
-    this.datos.set(prestamo.folio, prestamo);
-    return prestamo;
+  async save(entity: Prestamo): Promise<Prestamo> {
+    this.prestamos.set(entity.folio, entity);
+    return entity;
   }
 
   async delete(folio: string): Promise<void> {
-    this.datos.delete(folio);
+    this.prestamos.delete(folio);
   }
 
   async findByLibro(libroId: string): Promise<Prestamo[]> {
-    return [...this.datos.values()].filter((p) => p.libroId === libroId);
+    const todos = await this.findAll();
+    return todos.filter((p) => p.libroId === libroId);
   }
 }
