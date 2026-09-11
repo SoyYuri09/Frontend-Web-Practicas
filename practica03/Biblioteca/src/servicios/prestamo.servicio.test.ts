@@ -22,7 +22,7 @@ async function ejecutarPruebas() {
     undefined,
     'El costo de reposición no debe salir en el DTO'
   );
-  console.log('✔ Prueba 1 superada: Camino feliz');
+  console.log('Prueba 1 superada: Camino feliz');
 
   // 2. Ejemplar duplicado
   try {
@@ -37,7 +37,7 @@ async function ejecutarPruebas() {
       error instanceof EjemplarPrestadoError,
       'El error debe ser de tipo EjemplarPrestadoError'
     );
-    console.log('✔ Prueba 2 superada: Ejemplar duplicado');
+    console.log('Prueba 2 superada: Ejemplar duplicado');
   }
 }
 
