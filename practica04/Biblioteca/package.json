@@ -4,6 +4,7 @@
   "type": "module",
   "description": "Practica 3 - La capa de dominio con genericos y patrones",
   "scripts": {
+    "servidor": "tsc && node dist/http/servidor.js",
     "dev": "tsx src/main.ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
