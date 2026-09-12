@@ -3,8 +3,8 @@ import express from 'express';
 import { PrestamoService } from '../servicios/prestamo.service.js';
 import { InMemoryPrestamoRepository } from '../infra/in-memory-prestamo.repository.js';
 import { EjemplarPrestadoError } from '../errores/ejemplar-prestado.error.js';
-import { ValidacionError } from './errores.js';
-import { validarCrearPrestamo } from './validar.js';
+import { ValidacionError } from './errores-http.js';
+import { validarCrearPrestamo } from './validar.js'
 import { aResponseDto } from '../dto/prestamo-response.dto.js';
 import type { ErrorResponseDto } from '../contratos/prestamo.dto.js';
 
