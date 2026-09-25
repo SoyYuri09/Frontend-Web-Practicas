@@ -6,8 +6,12 @@ import { Miembro } from 'src/inscripciones/dominio/entidades';
 
 @Injectable()
 export class MiembroMemoriaRepository implements MiembroRepository {
-  private miembros: Miembro[] = [];
-  private siguienteId = 1;
+  private miembros: Miembro[] = [
+    { id: 1, nombre: 'Ramón Valencia', correo: 'ramens@gmail.com', membresia: 'premium', activo: true },
+    { id: 2, nombre: 'Rodrigo Tovar', correo: 'rordri@gmail.com', membresia: 'basica', activo: true },
+    { id: 3, nombre: 'Alberto Jimenez', correo: 'betongo@gmail.com', membresia: 'premium', activo: false },
+  ];
+  private siguienteId = 4;
 
   async listar(): Promise<Miembro[]> {
     return this.miembros;
