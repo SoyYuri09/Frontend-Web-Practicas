@@ -7,7 +7,7 @@ import { ActualizarMiembroDto } from '../dto/actualizar-miembro.dto';
 @Injectable()
 export class MiembroMemoriaRepository implements MiembroRepository {
   private miembros: Miembro[] = [];
-  private siguienteId = 4;
+  private siguienteId = 1;
 
   async listar(): Promise<Miembro[]> {
     return this.miembros;
