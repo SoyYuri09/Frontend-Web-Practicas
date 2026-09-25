@@ -9,7 +9,7 @@ export const HORARIOS: Horario[] = [
 ];
 
 export const MIEMBROS: Miembro[] = [
-  { id: 1, nombre: 'Karla Duarte', correo: 'karla@itson.mx', membresia: 'premium', activo: true },
-  { id: 2, nombre: 'Omar Valdez', correo: 'omar@itson.mx', membresia: 'plus', activo: true },
-  { id: 3, nombre: 'Sofia Ibarra', correo: 'sofia@itson.mx', membresia: 'basica', activo: true },
+  { id: 1, nombre: 'Ramón Valencia', correo: 'ramens@gmail.com', membresia: 'premium', activo: true },
+  { id: 2, nombre: 'Rodrigo Tovar', correo: 'rordri@gmail.com', membresia: 'basica', activo: true },
+  { id: 3, nombre: 'Alberto Jimenez', correo: 'betongo@gmail.com', membresia: 'premium', activo: false },
 ];

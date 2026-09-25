@@ -1,6 +1,6 @@
 export interface ActualizarMiembroDto {
   nombre?: string;
   correo?: string;
-  membresía?: string;
+  membresia?: string;
   activo?: boolean;
 }
