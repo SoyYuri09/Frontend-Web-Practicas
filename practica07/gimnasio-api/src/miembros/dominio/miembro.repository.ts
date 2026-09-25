@@ -1,6 +1,6 @@
+import { Miembro } from "src/inscripciones/dominio/entidades";
 import { ActualizarMiembroDto } from "../dto/actualizar-miembro.dto";
 import { CrearMiembroDto } from "../dto/crear-miembro.dto";
-import { Miembro } from "./entidades";
 
 export interface MiembroRepository {
       listar(): Promise<Miembro[]>;

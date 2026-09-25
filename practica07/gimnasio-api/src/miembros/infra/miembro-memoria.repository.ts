@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { MiembroRepository } from '../dominio/miembro.repository';
-import { Miembro } from '../dominio/entidades';
 import { CrearMiembroDto } from '../dto/crear-miembro.dto';
 import { ActualizarMiembroDto } from '../dto/actualizar-miembro.dto';
+import { Miembro } from 'src/inscripciones/dominio/entidades';
 
 @Injectable()
 export class MiembroMemoriaRepository implements MiembroRepository {
