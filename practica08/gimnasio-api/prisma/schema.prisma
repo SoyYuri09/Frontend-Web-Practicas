@@ -21,3 +21,18 @@ model Clase {
 
   @@map("clases")
 }
+
+model Horario {
+  id         Int    @id @default(autoincrement())
+  claseId    Int
+  dia        String @db.VarChar(20)
+  horaInicio String @db.VarChar(5)
+  cupoMaximo Int
+  entrenador String @db.VarChar(80)
+
+  //clase         Clase         @relation(fields: [claseId], references: [id], onDelete: Cascade)
+  //inscripciones Inscripcion[]
+
+  @@index([claseId])
+  @@map("horarios")
+}

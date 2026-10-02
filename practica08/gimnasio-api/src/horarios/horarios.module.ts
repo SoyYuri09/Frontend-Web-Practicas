@@ -3,6 +3,7 @@ import { HorariosController } from './horarios.controller';
 import { HorariosService } from './horarios.service';
 import { HorarioMemoriaRepository } from './infra/horario-memoria.repository';
 import { HORARIO_REPOSITORY } from './horarios.tokens';
+import { HorarioPrismaRepository } from './infra/horario-prisma.repository';
 
 @Module({
   controllers: [HorariosController],
@@ -10,7 +11,7 @@ import { HORARIO_REPOSITORY } from './horarios.tokens';
     HorariosService,
     {
       provide: HORARIO_REPOSITORY,
-      useClass: HorarioMemoriaRepository,
+      useClass: HorarioPrismaRepository,
       //         ^^^^^^^^^^^^^^^^^^^^^^^^
       // Practica 8 (Prisma): esta linea pasa a HorarioPrismaRepository.
       // Ni el Service ni el Controller se enteran.
