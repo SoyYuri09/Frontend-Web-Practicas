@@ -17,7 +17,7 @@ model Clase {
   id          Int     @id @default(autoincrement())
   nombre      String  @db.VarChar(80)
   descripcion String?   @db.VarChar(255)
-  //horarios Horario[]
+  horarios Horario[]
 
   @@map("clases")
 }
@@ -30,8 +30,8 @@ model Horario {
   cupoMaximo Int
   entrenador String @db.VarChar(80)
 
-  //clase         Clase         @relation(fields: [claseId], references: [id], onDelete: Cascade)
-  //inscripciones Inscripcion[]
+  clase         Clase         @relation(fields: [claseId], references: [id], onDelete: Cascade)
+  inscripciones Inscripcion[]
 
   @@index([claseId])
   @@map("horarios")
@@ -44,7 +44,27 @@ model Miembro {
   membresia String  @db.VarChar(20)
   activo    Boolean @default(true)
 
-  //inscripciones Inscripcion[]
+  inscripciones Inscripcion[]
 
   @@map("miembros")
+}
+
+enum EstadoInscripcion {
+  confirmada
+  cancelada
+}
+
+model Inscripcion {
+  id        Int               @id @default(autoincrement())
+  horarioId Int
+  miembroId Int
+  estado    EstadoInscripcion @default(confirmada)
+  creadaEn  DateTime          @default(now())
+
+  horario Horario @relation(fields: [horarioId], references: [id], onDelete: Cascade)
+  miembro Miembro @relation(fields: [miembroId], references: [id], onDelete: Cascade)
+
+  @@unique([horarioId, miembroId])
+  @@index([miembroId])
+  @@map("inscripciones")
 }
