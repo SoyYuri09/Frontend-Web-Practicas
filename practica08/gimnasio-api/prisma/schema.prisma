@@ -36,3 +36,15 @@ model Horario {
   @@index([claseId])
   @@map("horarios")
 }
+
+model Miembro {
+  id        Int     @id @default(autoincrement())
+  nombre    String  @db.VarChar(120)
+  correo    String  @unique @db.VarChar(160)
+  membresia String  @db.VarChar(20)
+  activo    Boolean @default(true)
+
+  //inscripciones Inscripcion[]
+
+  @@map("miembros")
+}
