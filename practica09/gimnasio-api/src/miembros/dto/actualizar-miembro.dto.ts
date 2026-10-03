@@ -1,8 +1,22 @@
-// Todo opcional: un PATCH manda solo lo que cambia. "activo" es el
-// campo pensado para dar de baja a un miembro sin borrar su historial.
-export interface ActualizarMiembroDto {
+import { IsBoolean, IsEmail, IsIn, IsOptional, IsString, MaxLength } from 'class-validator';
+
+const MEMBRESIAS = ['basica', 'plus', 'premium'];
+
+export class ActualizarMiembroDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(120)
   nombre?: string;
+
+  @IsOptional()
+  @IsEmail()
   correo?: string;
+
+  @IsOptional()
+  @IsIn(MEMBRESIAS)
   membresia?: string;
+
+  @IsOptional()
+  @IsBoolean()
   activo?: boolean;
 }
