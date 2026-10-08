@@ -6,13 +6,13 @@ import { ClasesModule } from './clases/clases.module';
 import { InscripcionesModule } from './inscripciones/inscripciones.module';
 import { MiembrosModule } from './miembros/miembros.module';
 import { HorariosModule } from './horarios/horarios.module';
-//import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module';
 import { PeticionIdMiddleware } from './comun/middleware/peticion-id.middleware';
 
 @Module({
   imports: [
     PrismaModule,
-    //AuthModule,
+    AuthModule,
     ClasesModule,
     InscripcionesModule,
     MiembrosModule,
