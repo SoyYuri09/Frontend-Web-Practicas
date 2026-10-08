@@ -15,8 +15,10 @@ export interface Usuario {
 
 export type NuevoUsuario = Omit<Usuario, 'id' | 'creadoEn'>;
 
+
 export interface PayloadJwt {
-  sub: number;
+  sub: number;              
+  correo: string;
   rol: Rol;
   miembroId: number | null;
 }
