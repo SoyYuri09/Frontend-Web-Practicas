@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { LoggingInterceptor } from './comun/interceptores/logging.interceptor';
 import { DominioExceptionFilter } from './comun/filtros/dominio.filter';
+import { SobreInterceptor } from './comun/interceptores/sobre.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,7 +18,7 @@ async function bootstrap() {
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true}),
   )
   app.useGlobalFilters(new DominioExceptionFilter());
-    app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new LoggingInterceptor(), new SobreInterceptor());
 
   await app.listen(process.env.PORT ?? 3000);
 }
