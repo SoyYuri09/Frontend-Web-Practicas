@@ -27,3 +27,18 @@ for (const p of productos) {
   tarjeta.setAttribute('existencia', String(p.existencia));
   rejilla.append(tarjeta);
 }
+
+const cuenta = document.querySelector<HTMLElement>('#cuenta')!;
+const vaciar = document.querySelector<HTMLElement>('#vaciar')!;
+let enCarrito = 0;
+
+rejilla.addEventListener('agregar', (e) => {
+  enCarrito++;
+  cuenta.textContent = String(enCarrito);
+  console.log('Agregado:', e.detail.nombre, e.detail.precio);
+});
+
+vaciar.addEventListener('click', () => {
+  enCarrito = 0;
+  cuenta.textContent = '0';
+});
