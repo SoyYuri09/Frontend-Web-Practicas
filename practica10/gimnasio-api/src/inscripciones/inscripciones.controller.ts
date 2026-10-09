@@ -16,6 +16,9 @@ import { CrearInscripcionDto } from './dto/crear-inscripcion.dto';
 import { aInscripcionDto } from './dto/inscripcion-respuesta.dto';
 import { UsuarioActual } from '../auth/decoradores/usuario-actual.decorator';
 import { type PayloadJwt, Rol } from '../auth/dominio/usuarios';
+import { UseGuards } from '@nestjs/common';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decoradores/roles.decorator';
 
 @Controller('inscripciones')
 export class InscripcionesController {
@@ -52,6 +55,8 @@ export class InscripcionesController {
   }
 
   @Delete(':id')
+  @UseGuards(RolesGuard)
+  @Roles(Rol.entrenador, Rol.admin)
   async cancelar(@Param('id') id: string) {
     const cancelada = await this.servicio.cancelar(Number(id));
     if (!cancelada) {
