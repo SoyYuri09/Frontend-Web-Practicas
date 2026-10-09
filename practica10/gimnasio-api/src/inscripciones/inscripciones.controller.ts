@@ -1,9 +1,8 @@
 import {
-  BadRequestException,
   Body,
-  ConflictException,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   HttpCode,
   NotFoundException,
@@ -15,12 +14,8 @@ import type { Response } from 'express';
 import { InscripcionesService } from './inscripciones.service';
 import { CrearInscripcionDto } from './dto/crear-inscripcion.dto';
 import { aInscripcionDto } from './dto/inscripcion-respuesta.dto';
-import {
-  CupoLlenoError,
-  HorarioNoEncontradoError,
-  InscripcionDuplicadaError,
-  MiembroNoEncontradoError,
-} from './dominio/errores';
+import { UsuarioActual } from '../auth/decoradores/usuario-actual.decorator';
+import { type PayloadJwt, Rol } from '../auth/dominio/usuarios';
 
 @Controller('inscripciones')
 export class InscripcionesController {
@@ -45,11 +40,15 @@ export class InscripcionesController {
   @HttpCode(201)
   async crear(
     @Body() dto: CrearInscripcionDto,
+    @UsuarioActual() usuario: PayloadJwt, 
     @Res({ passthrough: true }) res: Response,
   ) {
-      const inscripcion = await this.servicio.crear(dto);
-      res.setHeader('Location', `/inscripciones/${inscripcion.id}`);
-      return aInscripcionDto(inscripcion);
+    if (usuario.rol === Rol.miembro && usuario.miembroId !== dto.miembroId) {
+      throw new ForbiddenException('Solo puedes inscribirte a ti mismo');
+    }
+    const inscripcion = await this.servicio.crear(dto);
+    res.setHeader('Location', `/inscripciones/${inscripcion.id}`);
+    return aInscripcionDto(inscripcion);
   }
 
   @Delete(':id')
