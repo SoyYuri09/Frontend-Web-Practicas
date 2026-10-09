@@ -1,3 +1,16 @@
+### Gimnasio API - peticiones de prueba (hasta la Practica 10)
+###
+### COMO SE USA:
+###   1. Extension "REST Client" (humao.rest-client) en VS Code.
+###   2. npm run start:dev
+###   3. Clic en "Send Request" arriba de cada peticion.
+###
+### OJO: el orden importa. El horario 1 tiene cupoMaximo = 2, asi que las
+### peticiones 1, 2 y 3 hay que correrlas EN ORDEN para ver el 409.
+### Desde la Practica 8 los datos viven en MySQL (Prisma): un reinicio
+### del servidor ya NO los borra. Vuelve a la foto original con
+### npm run prisma:seed (que primero borra y vuelve a sembrar).
+
 @host = http://localhost:3000
 
 ### 1. Primera inscripcion  ->  201 + header Location
@@ -156,6 +169,7 @@ GET {{host}}/horarios/99
 ### 27. Horarios - eliminar  ->  200
 DELETE {{host}}/horarios/4
 
+
 ### ================================================================
 ### Practica 9 - Blindar la API (ValidationPipe, Middleware,
 ### Interceptor, Filter)
@@ -194,3 +208,91 @@ POST {{host}}/inscripciones
 Content-Type: application/json
 
 { "horarioId": 99, "miembroId": 1 }
+
+
+### ================================================================
+### Practica 9B - Filtros, Middleware e Interceptores
+### ================================================================
+
+### 33. Mandar tu propio X-Request-Id  ->  la respuesta regresa el mismo
+GET {{host}}/clases/1
+X-Request-Id: prueba-123
+
+
+### 34. CORS - origen permitido  ->  200 CON Access-Control-Allow-Origin
+GET {{host}}/clases
+Origin: http://localhost:5173
+
+
+### 35. CORS - origen no permitido  ->  200 SIN Access-Control-Allow-Origin
+###     El servidor responde igual: el que bloquea es el navegador.
+GET {{host}}/clases
+Origin: http://localhost:4000
+
+
+### ================================================================
+### Practica 10 - Autenticacion JWT y OpenAPI
+### Cuentas de prueba (en memoria): karla@itson.mx (miembro 1),
+### ana@itson.mx (entrenador), admin@itson.mx. Contrasena: gimnasio2026
+### ================================================================
+
+### 36. Sin token  ->  401. Las inscripciones ya no son publicas
+GET {{host}}/inscripciones
+
+
+### 37. El catalogo sigue abierto  ->  200 (@Publico)
+GET {{host}}/clases
+
+
+### 38. Login con contrasena mala  ->  401 "Credenciales invalidas"
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{ "correo": "karla@itson.mx", "password": "otra" }
+
+
+### 39. Login de Karla -> 200 con el token
+# @name loginKarla
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+  "correo": "karla@itson.mx",
+  "password": "gimnasio2026"
+}
+
+###
+
+@tokenKarla = {{loginKarla.response.body.data.access_token}}
+GET {{host}}/auth/yo
+Authorization: Bearer {{tokenKarla}}
+
+
+### 41. Karla se inscribe a si misma  ->  201
+POST {{host}}/inscripciones
+Content-Type: application/json
+Authorization: Bearer {{tokenKarla}}
+
+{ "horarioId": 3, "miembroId": 1 }
+
+
+### 42. EL HUECO CERRADO: Karla intenta inscribir a Sofia  ->  403
+POST {{host}}/inscripciones
+Content-Type: application/json
+Authorization: Bearer {{tokenKarla}}
+
+{ "horarioId": 3, "miembroId": 3 }
+
+
+### 43. Registro con contrasena corta  ->  400
+POST {{host}}/auth/registro
+Content-Type: application/json
+
+{ "correo": "omar@itson.mx", "password": "123" }
+
+
+### 44. Registro valido  ->  201 con token (repetirlo da 409)
+POST {{host}}/auth/registro
+Content-Type: application/json
+
+{ "correo": "omar@itson.mx", "password": "gimnasio2026", "miembroId": 2 }
