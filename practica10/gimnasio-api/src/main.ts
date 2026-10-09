@@ -6,6 +6,7 @@ import { LoggingInterceptor } from './comun/interceptores/logging.interceptor';
 import { DominioExceptionFilter } from './comun/filtros/dominio.filter';
 import { SobreInterceptor } from './comun/interceptores/sobre.interceptor';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,6 +24,15 @@ async function bootstrap() {
 
   const reflector = app.get(Reflector); 
   app.useGlobalGuards(new JwtAuthGuard(reflector));
+
+  const config = new DocumentBuilder()
+    .setTitle('API del Gimnasio')         
+    .setVersion('1.0')
+    .addBearerAuth()                    
+    .addSecurityRequirements('bearer')    
+    .build();
+  const documento = SwaggerModule.createDocument(app, config); 
+  SwaggerModule.setup('docs', app, documento); 
 
   await app.listen(process.env.PORT ?? 3000);
 }
