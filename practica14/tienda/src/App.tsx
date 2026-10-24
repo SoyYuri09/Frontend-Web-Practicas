@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { productos, type Producto } from "./datos.ts";
+import { type Producto } from "./datos.ts";
 import { Layout }  from "./Layout.tsx";
 import { Encabezado } from "./Encabezado.tsx";
 import { PiePagina } from "./PiePagina.tsx";
@@ -8,11 +8,14 @@ import { Filtro } from "./Filtro.tsx";
 import { Cargando } from "./Cargando.tsx";
 import { MensajeError } from "./MensajeError.tsx";
 import { useProductos } from "./hooks/useProductos.ts";
+import { crearPedido } from "./servicios/tienda.ts";
+import { FormularioPago } from "./FormularioPago.tsx";
 
 export default function App() {
   const { productos, cargando, error, reintentar } = useProductos();
   const [categoria, setCategoria] = useState("todas");
   const [carrito, setCarrito] = useState<Producto[]>([]);
+  const [folio, setFolio] = useState<string | null>(null);
 
   const categorias = ['todas', ...new Set(productos.map((p) => p.categoria))];
   const visibles = categoria === 'todas' ? productos : productos.filter((p) => p.categoria === categoria);
@@ -20,6 +23,13 @@ export default function App() {
 
   function agregar(producto: Producto) {
     setCarrito((anterior) => [...anterior, producto]);
+  }
+
+  async function pagar(correo:string, telefono: string) {
+    const pedido = await crearPedido({ correo, telefono, productos: carrito.map((p) => p.id)});
+    setFolio(pedido.folio);
+    setCarrito([]);
+    reintentar();
   }
 
   return (
@@ -35,6 +45,10 @@ export default function App() {
           <Catalogo productos={visibles} onAgregar={agregar} />
           </>
         )}
+
+        {folio && <p className="confirmacion">Pedido {folio} confirmado. Te avisaremos el detalle del pago a tu correo.</p>}
+        { carrito.length > 0 && <FormularioPago total={total} onPagar={pagar} />}
+        
       </section>
     </Layout>
   )
