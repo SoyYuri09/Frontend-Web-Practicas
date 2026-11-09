@@ -1,10 +1,17 @@
-## **Preguntas de la práctica**
+# Práctica 16
 
-### **Paso 1.1: ¿Por qué se usa un contexto y no props para la sesión?**
-#### Para que la información de la sesión no tenga que pasarse de hijo en hijo a través de todo el árbol de componentes; se crea un canal que se comparte con todos, para que aquellos que necesiten información de la sesión puedan acceder a él sin recibirlo por props.
+## Ejercicio 1: el contexto de sesión
 
-### **Paso 1.2: ¿Qué pasa si un componente usa la sesión fuera del proveedor?**
-#### El componente intenta leer la sesión, pero el proveedor no se la entrega; al estar fuera del contexto, la función useContext() devuelve null (el proyecto lanza un error al detectar esto y la página no se pinta).
+**¿Por qué se usa un contexto y no props para la sesión?**
 
-### **Paso 2.1: ¿Dónde se guarda el token y qué riesgo tiene ese lugar?**
-#### Se guarda en localStorage. Tiene el riesgo de ataques XSS (Cross-site scripting): un atacante puede acceder a localStorage mediante JavaScript y alterar la información almacenada ahí (por ejemplo, robar el token).
+La sesión la necesitan componentes distintos, como el encabezado y las páginas de entrar y registro. El contexto permite compartirla desde un proveedor común, sin pasarla como props por todos los componentes intermedios (prop drilling). Así, cada componente puede consultar o actualizar el estado de sesión cuando lo necesita.
+
+**¿Qué pasa si un componente usa la sesión fuera del proveedor?**
+
+`useSesion()` recibe `null` porque no hay un proveedor que le dé el valor del contexto. El hook detecta esa situación y lanza un error explícito (`useSesion() tiene que usarse dentro de <ProveedorSesion>`); por eso la aplicación falla en vez de continuar con una sesión indefinida. En esta aplicación, `ProveedorSesion` envuelve las rutas desde `main.tsx`.
+
+## Ejercicio 2: entrar y mandar el token
+
+**¿Dónde se guarda el token y qué riesgo tiene ese lugar?**
+
+Se guarda en `localStorage`, bajo la clave `token` (el usuario se guarda por separado en `usuario`). El interceptor de Axios agrega el token como bearer en la cabecera `Authorization` de las solicitudes. El riesgo es que cualquier JavaScript que se ejecute en el mismo origen —por ejemplo, debido a una vulnerabilidad XSS— puede leerlo y robarlo; además, permanece guardado hasta cerrar sesión o borrarlo. Para una aplicación real se debe evaluar una estrategia más segura, como cookies `HttpOnly`, con los cambios correspondientes en el backend.
