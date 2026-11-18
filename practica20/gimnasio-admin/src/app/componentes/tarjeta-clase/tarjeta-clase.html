@@ -1,4 +1,7 @@
-<article class="tarjeta-clase">
+<article
+  class="tarjeta-clase"
+  [class.tarjeta-clase--activa]="activa()"
+  (click)="seleccionar.emit(clase())">
   <img [src]="clase().imagen" [alt]="clase().nombre" />
 
   <div class="tarjeta-clase__cuerpo">
@@ -12,6 +15,8 @@
         @default { Trae tu tapete. }
     }
     </p>
+
+    
 
     <div class="tarjeta-clase__pie">
       <span [class]="'etiqueta etiqueta--' + clase().categoria">

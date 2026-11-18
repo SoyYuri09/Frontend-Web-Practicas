@@ -9,7 +9,7 @@
 // public/ en la raíz). Desde la Práctica 21 las va a servir la API.
 // ---------------------------------------------------------------------------
 
-import type { Clase } from "../modelos/clase";
+import type { Clase } from '../modelos/clase';
 
 export const CLASES_LOCALES: Clase[] = [
   {

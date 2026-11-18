@@ -11,47 +11,52 @@
   <div class="encabezado">
     <div>
       <h1>Catálogo de clases</h1>
-      <p>Datos locales · Práctica 19</p>
-    </div>
-    <div class="acciones">
-      <button class="boton boton--secundario" (click)="vaciar()">Vaciar</button>
-      <button class="boton" (click)="restaurar()">Restaurar</button>
+      <p>Datos locales · Práctica 20</p>
     </div>
   </div>
 
   <section class="resumen">
     <div class="resumen__dato">
-      <span class="resumen__numero">{{ clases.length }}</span>
-      <span class="resumen__texto">clases en el catálogo</span>
+      <span class="resumen__numero">{{ catalogo.visibles().length }}</span>
+      <span class="resumen__texto">clases con este filtro</span>
     </div>
     <div class="resumen__dato">
-      <span class="resumen__numero">{{ minutosTotales }}</span>
+      <span class="resumen__numero">{{ catalogo.minutosTotales() }}</span>
       <span class="resumen__texto">minutos a la semana</span>
-    </div>
-    <div class="resumen__dato">
-      <span class="resumen__numero">{{ clasesLargas }}</span>
-      <span class="resumen__texto">clases de una hora o más</span>
     </div>
   </section>
 
-  @if (clases.length === 0) {
-  <p class="aviso aviso--error">El catálogo está vacío. Dale a Restaurar.</p>
-  } @else if (clases.length < 5) {
-    <p class="aviso aviso--atencion">Hay pocas clases: sólo {{ clases.length }}.</p>
-  } @else {
-    <p class="aviso aviso--exito">
-      Catálogo completo.
-      @if (clasesLargas > 0) {
-        Ojo: {{ clasesLargas }} clases duran una hora o más.
-      }
-    </p>
-  }
+  <app-filtro-categoria />
 
-  <div class="rejilla">
-    @for (clase of clases; track clase.id) {
-      <app-tarjeta-clase [clase]="clase" />
-    } @empty {
-      <p class="vacio">No hay clases en el catálogo.</p>
-    }
+  <div class="tablero">
+    <div class="rejilla">
+      @for (clase of catalogo.visibles(); track clase.id) {
+
+        <app-tarjeta-clase
+          [clase]="clase"
+          [activa]="clase.id === catalogo.seleccionada()?.id"
+          (seleccionar)="catalogo.seleccionar($event)" />
+      } @empty {
+        <p class="vacio">No hay clases con ese filtro.</p>
+      }
+    </div>
+
+    <aside class="tarjeta lateral">
+      @if (catalogo.seleccionada(); as c) {
+        <img [src]="c.imagen" [alt]="c.nombre" />
+        <h2>{{ c.nombre }}</h2>
+        <p>{{ c.descripcion }}</p>
+        <div class="dato">
+          <span class="dato__clave">Categoría</span>
+          <span class="dato__valor">{{ c.categoria | titlecase }}</span>
+        </div>
+        <div class="dato">
+          <span class="dato__clave">Duración</span>
+          <span class="dato__valor">{{ c.duracionMin }} min</span>
+        </div>
+      } @else {
+        <p class="vacio">Da clic en una clase para ver su detalle.</p>
+      }
+    </aside>
   </div>
 </main>

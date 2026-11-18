@@ -1,5 +1,5 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import type { Clase } from '../../modelos/clase';
 
 @Component({
@@ -10,4 +10,8 @@ import type { Clase } from '../../modelos/clase';
 })
 export class TarjetaClase {
   readonly clase = input.required<Clase>();
+
+  readonly activa = input(false);
+
+  readonly seleccionar = output<Clase>();
 }
